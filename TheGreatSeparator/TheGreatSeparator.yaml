@@ -1,0 +1,9 @@
+name: The Great Separator
+author: ascclemens
+description: |-
+  Add separators to various numbers.
+
+  - Damage/healing numbers (not DoTs or other players' numbers)
+  - Party list HP
+  - Ability costs on hotbars
+  - Ability costs in tooltips
