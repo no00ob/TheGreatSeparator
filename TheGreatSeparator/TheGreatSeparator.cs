@@ -5,12 +5,18 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Dalamud;
+using Dalamud.Game;
+using Dalamud.Game.Command;
 using Dalamud.Hooking;
+using Dalamud.IoC;
 using Dalamud.Plugin;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace TheGreatSeparator {
-    public class TheGreatSeparator : IDisposable {
+    // ReSharper disable once ClassNeverInstantiated.Global
+    public class TheGreatSeparator : IDalamudPlugin {
+        public string Name => "The Great Separator";
+
         private static class Signatures {
             internal const string ShowFlyText = "E8 ?? ?? ?? ?? FF C7 41 D1 C7";
             internal const string SprintfNumber = "48 83 EC 28 44 8B C9";
@@ -34,7 +40,15 @@ namespace TheGreatSeparator {
 
         private Hook<SprintfNumberDelegate>? SprintfNumberHook { get; }
 
-        internal DalamudPluginInterface Interface { get; }
+        [PluginService]
+        internal DalamudPluginInterface Interface { get; init; } = null!;
+
+        [PluginService]
+        internal CommandManager CommandManager { get; init; } = null!;
+
+        [PluginService]
+        internal SigScanner SigScanner { get; init; } = null!;
+
         internal Configuration Config { get; }
         internal PluginUi Ui { get; }
         private Commands Commands { get; }
@@ -42,9 +56,7 @@ namespace TheGreatSeparator {
         private byte OriginalSeparator { get; }
         private IntPtr SeparatorPtr { get; } = IntPtr.Zero;
 
-        internal TheGreatSeparator(DalamudPluginInterface @interface) {
-            this.Interface = @interface;
-
+        internal TheGreatSeparator() {
             this.Config = this.Interface.GetPluginConfig() as Configuration ?? new Configuration();
             this.Config.Initialise(this.Interface);
 
@@ -53,17 +65,17 @@ namespace TheGreatSeparator {
             this.Ui = new PluginUi(this);
             this.Commands = new Commands(this);
 
-            if (this.Interface.TargetModuleScanner.TryScanText(Signatures.ShowFlyText, out var showFlyPtr)) {
-                this.ShowFlyTextHook = new Hook<ShowFlyTextDelegate>(showFlyPtr + 9, new ShowFlyTextDelegate(this.ShowFlyTextDetour));
+            if (this.SigScanner.TryScanText(Signatures.ShowFlyText, out var showFlyPtr)) {
+                this.ShowFlyTextHook = new Hook<ShowFlyTextDelegate>(showFlyPtr + 9, this.ShowFlyTextDetour);
                 this.ShowFlyTextHook.Enable();
             }
 
-            if (this.Interface.TargetModuleScanner.TryScanText(Signatures.SprintfNumber, out var sprintfPtr)) {
-                this.SprintfNumberHook = new Hook<SprintfNumberDelegate>(sprintfPtr, new SprintfNumberDelegate(this.SprintfNumberDetour));
+            if (this.SigScanner.TryScanText(Signatures.SprintfNumber, out var sprintfPtr)) {
+                this.SprintfNumberHook = new Hook<SprintfNumberDelegate>(sprintfPtr, this.SprintfNumberDetour);
                 this.SprintfNumberHook.Enable();
             }
 
-            if (this.Interface.TargetModuleScanner.TryGetStaticAddressFromSig(Signatures.Separator, out var separatorPtr)) {
+            if (this.SigScanner.TryGetStaticAddressFromSig(Signatures.Separator, out var separatorPtr)) {
                 this.SeparatorPtr = separatorPtr;
                 this.OriginalSeparator = Marshal.ReadByte(this.SeparatorPtr);
             }
@@ -102,7 +114,7 @@ namespace TheGreatSeparator {
         }
 
         private void ConfigureInstruction(string sig, bool enabled) {
-            if (!this.Interface.TargetModuleScanner.TryScanText(sig, out var ptr)) {
+            if (!this.SigScanner.TryScanText(sig, out var ptr)) {
                 return;
             }
 

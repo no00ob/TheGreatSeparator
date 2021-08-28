@@ -10,16 +10,16 @@ namespace TheGreatSeparator {
         internal PluginUi(TheGreatSeparator plugin) {
             this.Plugin = plugin;
 
-            this.Plugin.Interface.UiBuilder.OnBuildUi += this.Draw;
-            this.Plugin.Interface.UiBuilder.OnOpenConfigUi += this.Toggle;
+            this.Plugin.Interface.UiBuilder.Draw += this.Draw;
+            this.Plugin.Interface.UiBuilder.OpenConfigUi += this.Toggle;
         }
 
         public void Dispose() {
-            this.Plugin.Interface.UiBuilder.OnOpenConfigUi -= this.Toggle;
-            this.Plugin.Interface.UiBuilder.OnBuildUi -= this.Draw;
+            this.Plugin.Interface.UiBuilder.OpenConfigUi -= this.Toggle;
+            this.Plugin.Interface.UiBuilder.Draw -= this.Draw;
         }
 
-        internal void Toggle(object? sender = null, object? args = null) {
+        internal void Toggle() {
             this._showWindow = !this._showWindow;
         }
 

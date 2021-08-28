@@ -8,13 +8,13 @@ namespace TheGreatSeparator {
         internal Commands(TheGreatSeparator plugin) {
             this.Plugin = plugin;
 
-            this.Plugin.Interface.CommandManager.AddHandler("/tgs", new CommandInfo(this.OnCommand) {
+            this.Plugin.CommandManager.AddHandler("/tgs", new CommandInfo(this.OnCommand) {
                 HelpMessage = "Open The Great Separator",
             });
         }
 
         public void Dispose() {
-            this.Plugin.Interface.CommandManager.RemoveHandler("/tgs");
+            this.Plugin.CommandManager.RemoveHandler("/tgs");
         }
 
         private void OnCommand(string command, string args) {
