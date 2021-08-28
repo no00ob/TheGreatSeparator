@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net5-windows</TargetFramework>
-        <Version>1.2.0</Version>
+        <Version>1.2.1</Version>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -25,6 +25,6 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="1.2.1"/>
+        <PackageReference Include="DalamudPackager" Version="2.1.2"/>
     </ItemGroup>
 </Project>
