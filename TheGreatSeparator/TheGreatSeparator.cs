@@ -56,7 +56,7 @@ namespace TheGreatSeparator {
         private byte OriginalSeparator { get; }
         private IntPtr SeparatorPtr { get; } = IntPtr.Zero;
 
-        internal TheGreatSeparator() {
+        public TheGreatSeparator() {
             this.Config = this.Interface.GetPluginConfig() as Configuration ?? new Configuration();
             this.Config.Initialise(this.Interface);
 
