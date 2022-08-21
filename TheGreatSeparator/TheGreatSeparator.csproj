@@ -1,40 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net5-windows</TargetFramework>
+        <TargetFramework>net6-windows</TargetFramework>
         <Version>1.2.3</Version>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
 
     <PropertyGroup>
-        <Dalamud>$(AppData)\XIVLauncher\addon\Hooks\dev</Dalamud>
+        <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev</DalamudLibPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))'">
+        <DalamudLibPath>$(DALAMUD_HOME)</DalamudLibPath>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(IsCI)' == 'true'">
-        <Dalamud>$(HOME)/dalamud</Dalamud>
+        <DalamudLibPath>$(HOME)/dalamud</DalamudLibPath>
     </PropertyGroup>
 
     <ItemGroup>
         <Reference Include="Dalamud">
-            <HintPath>$(Dalamud)\Dalamud.dll</HintPath>
+            <HintPath>$(DalamudLibPath)\Dalamud.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="FFXIVClientStructs">
-            <HintPath>$(Dalamud)\FFXIVClientStructs.dll</HintPath>
+            <HintPath>$(DalamudLibPath)\FFXIVClientStructs.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="ImGui.NET">
-            <HintPath>$(Dalamud)\ImGui.NET.dll</HintPath>
+            <HintPath>$(DalamudLibPath)\ImGui.NET.dll</HintPath>
             <Private>False</Private>
         </Reference>
         <Reference Include="ImGuiScene">
-            <HintPath>$(Dalamud)\ImGuiScene.dll</HintPath>
+            <HintPath>$(DalamudLibPath)\ImGuiScene.dll</HintPath>
             <Private>False</Private>
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="2.1.6"/>
+        <PackageReference Include="DalamudPackager" Version="2.1.7"/>
     </ItemGroup>
 </Project>
