@@ -21,8 +21,8 @@ namespace TheGreatSeparator {
             internal const string ShowFlyText = "E8 ?? ?? ?? ?? FF C7 41 D1 C7";
             internal const string SprintfNumber = "48 83 EC 28 44 8B C9";
 
-            internal const string FlyTextStringify = "45 33 C0 C6 44 24 ?? ?? 41 8B D6 E8";
-            internal const string HotbarManaStringify = "45 33 C0 48 8B CE C6 44 24 ?? ?? 42 8B 14 38 E8";
+            internal const string FlyTextStringify = "45 33 C0 C6 44 24 ?? ?? 41 8B D6 E8 ?? ?? ?? ?? 8B CD E8";
+            internal const string HotbarManaStringify = "45 33 C0 44 88 64 24 ?? 44 88 64 24 ?? 8B 14 08 48 8B CE E8";
             internal const string PartyListStringify = "45 33 C0 C6 44 24 ?? ?? 8B D5 E8 ?? ?? ?? ?? EB";
 
             internal const string Separator = "44 0F B6 05 ?? ?? ?? ?? 45 84 C0 74 36 F6 87";
