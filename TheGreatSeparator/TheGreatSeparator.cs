@@ -6,17 +6,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Dalamud;
 using Dalamud.Game;
-using Dalamud.Game.Command;
 using Dalamud.Hooking;
 using Dalamud.IoC;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 using FFXIVClientStructs.FFXIV.Component.GUI;
 
 namespace TheGreatSeparator {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class TheGreatSeparator : IDalamudPlugin {
-        public string Name => "The Great Separator";
-
         private static class Signatures {
             internal const string ShowFlyText = "E8 ?? ?? ?? ?? FF C7 41 D1 C7";
             internal const string SprintfNumber = "48 83 EC 28 44 8B C9";
@@ -44,10 +42,13 @@ namespace TheGreatSeparator {
         internal DalamudPluginInterface Interface { get; init; } = null!;
 
         [PluginService]
-        internal CommandManager CommandManager { get; init; } = null!;
+        internal ICommandManager CommandManager { get; init; } = null!;
 
         [PluginService]
-        internal SigScanner SigScanner { get; init; } = null!;
+        internal ISigScanner SigScanner { get; init; } = null!;
+
+        [PluginService]
+        internal IGameInteropProvider GameInteropProvider { get; init; } = null!;
 
         internal Configuration Config { get; }
         internal PluginUi Ui { get; }
@@ -66,12 +67,12 @@ namespace TheGreatSeparator {
             this.Commands = new Commands(this);
 
             if (this.SigScanner.TryScanText(Signatures.ShowFlyText, out var showFlyPtr)) {
-                this.ShowFlyTextHook = new Hook<ShowFlyTextDelegate>(showFlyPtr + 9, this.ShowFlyTextDetour);
+                this.ShowFlyTextHook = this.GameInteropProvider.HookFromAddress<ShowFlyTextDelegate>(showFlyPtr + 9, this.ShowFlyTextDetour);
                 this.ShowFlyTextHook.Enable();
             }
 
             if (this.SigScanner.TryScanText(Signatures.SprintfNumber, out var sprintfPtr)) {
-                this.SprintfNumberHook = new Hook<SprintfNumberDelegate>(sprintfPtr, this.SprintfNumberDetour);
+                this.SprintfNumberHook = this.GameInteropProvider.HookFromAddress<SprintfNumberDelegate>(sprintfPtr, this.SprintfNumberDetour);
                 this.SprintfNumberHook.Enable();
             }
 
