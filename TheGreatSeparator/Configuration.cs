@@ -3,7 +3,7 @@ using Dalamud.Plugin;
 
 namespace TheGreatSeparator {
     public class Configuration : IPluginConfiguration {
-        private DalamudPluginInterface Interface { get; set; } = null!;
+        private IDalamudPluginInterface Interface { get; set; } = null!;
 
         public int Version { get; set; } = 1;
 
@@ -13,7 +13,7 @@ namespace TheGreatSeparator {
         public bool PartyList = true;
         public char? CustomSeparator;
 
-        internal void Initialise(DalamudPluginInterface @interface) {
+        internal void Initialise(IDalamudPluginInterface @interface) {
             this.Interface = @interface;
         }
 

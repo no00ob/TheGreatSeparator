@@ -39,7 +39,7 @@ namespace TheGreatSeparator {
         private Hook<SprintfNumberDelegate>? SprintfNumberHook { get; }
 
         [PluginService]
-        internal DalamudPluginInterface Interface { get; init; } = null!;
+        internal IDalamudPluginInterface Interface { get; init; } = null!;
 
         [PluginService]
         internal ICommandManager CommandManager { get; init; } = null!;

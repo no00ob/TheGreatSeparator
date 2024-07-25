@@ -1,0 +1,25 @@
+[
+  {
+    "Author": "Anna, no00ob",
+    "Name": "The Great Separator",
+    "InternalName": "TheGreatSeparator",
+    "AssemblyVersion": "1.0.0.0",
+    "Description": "Add separators to various numbers.\n\n  - Damage/healing numbers (not DoTs or other players' numbers)\n  - Party list HP\n  - Ability costs on hotbars\n  - Ability costs in tooltips",
+    "ApplicableVersion": "any",
+    "RepoUrl": "https://github.com/no00ob/TheGreatSeparator",
+    "DalamudApiLevel": 10,
+    "LoadRequiredState": 0,
+    "LoadSync": false,
+    "CanUnloadAsync": false,
+    "LoadPriority": 0,
+    "Punchline": "Add separators to various numbers.",
+    "IsHide": "False",
+    "IsTestingExclusive": "False",
+    "DownloadCount": 0,
+    "LastUpdate": 0,
+    "DownloadLinkInstall": "https://github.com/no00ob/TheGreatSeparator/releases/download/v.1.0.0.0/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/no00ob/TheGreatSeparator/releases/download/v.1.0.0.0/latest.zip",
+    "IconUrl": "https://raw.githubusercontent.com/no00ob/TheGreatSeparator/main/Repo/icon.png",
+    "Changelog": "# Version 1.0.0.0\n- Updated for Dawntrail 7.0!\n- Updated to Dalamud API10"
+  }
+]

@@ -1,5 +1,5 @@
 name: The Great Separator
-author: Anna
+author: Anna, no00ob
 punchline: Add separators to various numbers.
 description: |-
   Add separators to various numbers.
@@ -8,4 +8,4 @@ description: |-
   - Party list HP
   - Ability costs on hotbars
   - Ability costs in tooltips
-repo_url: https://git.anna.lgbt/anna/TheGreatSeparator
+repo_url: https://github.com/no00ob/TheGreatSeparator
